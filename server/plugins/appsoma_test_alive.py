@@ -3,9 +3,12 @@ try:
 	import urllib2
 
 	def appsoma_test_alive_collector():
-		response = urllib2.urlopen('https://localhost:5001/test_alive')
-		html = response.read()
-		return 1 if (html == "1") else 0
+		try:
+			response = urllib2.urlopen('https://localhost:5001/test_alive')
+			html = response.read()
+			return 1 if (html == "1") else 0
+		except Exception as e:
+			return 0
 
 	collectors['appsoma_test_alive'] = appsoma_test_alive_collector
 except Exception, e:
