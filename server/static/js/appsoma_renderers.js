@@ -1,0 +1,1 @@
+renderFunctions['appsoma_test_alive'] = render_web_response_time;
