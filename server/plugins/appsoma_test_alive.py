@@ -5,7 +5,7 @@ try:
 	def appsoma_test_alive_collector():
 		response = urllib2.urlopen('https://localhost:5001/test_alive')
 		html = response.read()
-		return html == "1" ? 1 : 0
+		return 1 if (html == "1") else 0
 
 	collector['appsoma_test_alive'] = appsoma_test_alive_collector
 except Exception, e:
