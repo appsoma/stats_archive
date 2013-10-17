@@ -7,6 +7,6 @@ try:
 		html = response.read()
 		return 1 if (html == "1") else 0
 
-	collector['appsoma_test_alive'] = appsoma_test_alive_collector
+	collectors['appsoma_test_alive'] = appsoma_test_alive_collector
 except Exception, e:
 	print "Error importing appsoma_test_alive.py: " + str(e)
