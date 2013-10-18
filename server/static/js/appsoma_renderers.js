@@ -6,14 +6,13 @@ function render_appsoma_cpu( data, notes, element, time )
 	
 	var types = [];
 
-	for( var i in data[0] )
+	for( var i in data[0]['value'] )
 	{
 		types.push( i );
 	}
 	
 	blank = {};
 	for( var i = 0; i < types.length; i++ ) { blank[types[i]] = 0; }
-	console.log( blank );
 	data = add_zero_data_in_gaps( data, blank, time );
 
 	var palette = new Rickshaw.Color.Palette();
@@ -21,6 +20,7 @@ function render_appsoma_cpu( data, notes, element, time )
 	
 	for( var type in types )
 	{
+		var type = types[type];
 		var rickData = [];
 		for( var i = 0; i < data.length; i++ )
 		{
