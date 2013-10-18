@@ -1,9 +1,14 @@
 try:
 	from ss_plugin import *
 	import ministats
+	import logging
 
 	def appsoma_cpu_collector():
-		return ministats.stats()['cpu']
+		try:
+			return ministats.stats()['cpu']
+		except Exception as e:
+			logging.error( "Error using ministats to get cpu" )
+		return None
 
 	collectors['appsoma_cpu'] = appsoma_cpu_collector
 except Exception, e:
