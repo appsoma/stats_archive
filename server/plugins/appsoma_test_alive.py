@@ -5,8 +5,8 @@ try:
 	def appsoma_test_alive_collector():
 		try:
 			with open( "appsoma.base_port" ) as f:
-				port = f.read()
-			response = urllib2.urlopen('https://localhost:' + port + '/test_alive')
+				port = int(f.read()) + 1
+			response = urllib2.urlopen('https://localhost:' + str(port) + '/test_alive')
 			html = response.read()
 			return 1 if (html == "1") else 0
 		except Exception as e:
