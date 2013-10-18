@@ -68,7 +68,7 @@ $(function() {
 
 function chartSelector( node, name )
 {
-	return 'chart-' + node.replace( /\./g, "-" ) + "-" + name;
+	return 'chart-' + node.replace( /\./g, "-" ) + "-" + name.replace( /\./g, "-" );
 }
 
 function nodesData(data, textStatus, jqXHR) 
@@ -102,7 +102,7 @@ function nodeInfo(data, textStatus, jqXHR)
 	$("#info-list-content").append( '<div class="info-title">' + node + '</div>' );
 	for( var i = 0; i < data.length; i++ )
 	{
-		var c = "info-item-" + data[i]['name'];
+		var c = "info-item-" + data[i]['name'].replace( /\./g, "-" );
 		var html = "";
 		html += '<div class="info-item ' + c + '">';
 		html += '<span class="info-key">' + data[i]['name'].replace(/_/g, " ") + '</span>';
@@ -182,6 +182,9 @@ function graph( selector, nodeName, name, time )
 									$(".time-frame", selector).change(function() {
 										$(".chart-header", selector).append( '<img class="ajax-loader" src="/static/img/ajax-loader.gif"></img>' );
 										graph( selector, nodeName, name, $(this).val() );
+									});
+									$.doTimeout( "refresh-" + selector, 60000, function() {
+										graph( selector, nodeName, name, $(".time-frame", selector).val() );
 									});
 								}
 							});
