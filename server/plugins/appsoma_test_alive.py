@@ -4,7 +4,9 @@ try:
 
 	def appsoma_test_alive_collector():
 		try:
-			response = urllib2.urlopen('https://localhost:5001/test_alive')
+			with open( "appsoma.base_port" ) as f:
+				port = f.read()
+			response = urllib2.urlopen('https://localhost:' + port + '/test_alive')
 			html = response.read()
 			return 1 if (html == "1") else 0
 		except Exception as e:
