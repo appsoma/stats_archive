@@ -1,4 +1,6 @@
 renderFunctions['appsoma_test_alive'] = render_float;
+renderFunctions['appsoma_memory'] = render_float;
+renderFunctions['appsoma_disk'] = render_float;
 
 function render_appsoma_cpu( data, notes, element, time ) 
 {
