@@ -1,4 +1,4 @@
-renderFunctions['appsoma_test_alive'] = render_web_response_time;
+renderFunctions['appsoma_test_alive'] = render_float;
 
 function render_appsoma_cpu( data, notes, element, time ) 
 {
