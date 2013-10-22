@@ -155,29 +155,6 @@ function render_cpu_percent( data, notes, element, time )
 }
 renderFunctions['cpu_percent'] = render_cpu_percent;
 
-function status_cpu_percent( data )
-{
-	if( data.length < 1 ) return "red";
-
-	var procCount = data[0]['value'].length;
-
-	var count = 0;
-	var amt = 0;
-	for( var j = 0; j < procCount; j++ )
-	{
-		for( var i = 0; i < data.length; i++ )
-		{
-			amt += data[i]['value'][j];
-			count++;
-		}
-	}
-	amt /= count;
-	if( amt > 90 ) return "red";
-	else if( amt > 50 ) return "orange";
-	else return "green";
-}
-statusFunctions['cpu_percent'] = status_cpu_percent;
-
 function render_virtual_memory( data, notes, element, time ) 
 {
 	if( data.length < 1 ) return;
