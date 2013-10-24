@@ -12,8 +12,8 @@ def node_restart():
 		for nd in node_data:
 			note = nd['note']
 			if "RESTART" in note:
-				reason = note.split( ": " )[1].lower()
-				if reason == "timeout" or reason == "error" or reason == "stop" or reason == "unknown":
+				reason = note.lower()
+				if "timeout" in reason or "error" in reason or "stop" in reason or "unknown" in reason:
 					make_alert( node["name"] + "-node_restart", node["name"] + " restarted with reason: " + reason, 2 )	
 
 triggers['node_restart'] = node_restart
