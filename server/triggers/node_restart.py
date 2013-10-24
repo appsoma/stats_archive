@@ -9,7 +9,7 @@ def node_restart():
 		if len( notes ) == 0:
 			return
 			
-		for nd in node_data:
+		for nd in notes:
 			note = nd['note']
 			if "RESTART" in note:
 				reason = note.lower()
