@@ -25,4 +25,4 @@ def appsoma_alive():
 		check_alive( docker1_data, "docker-registry.appsoma.com:5000" )
 		check_alive( docker2_data, "docker-registry.appsoma.com:5001" )
 
-triggers['node_alive'] = node_alive
+triggers['appsoma_alive'] = appsoma_alive
