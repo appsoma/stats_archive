@@ -3,7 +3,7 @@ from trigger_helper import *
 
 def node_alive():
 	nodes = get_nodes()
-	nodes_list = ["node-0", "node-1", "node-2", "utexas1", "utexas2", "einstein", "sidl"]
+	nodes_list = ["node-0", "node-1", "utexas1", "utexas2", "einstein", "sidl"]
 	for node in nodes:
 		if node['name'] not in nodes_list:
 			return
