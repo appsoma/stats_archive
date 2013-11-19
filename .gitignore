@@ -41,3 +41,6 @@ node/plugins/*
 node/node.log
 server/db.db
 server/server.log
+
+#PyCharm
+.idea/*
