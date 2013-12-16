@@ -5,7 +5,8 @@ try:
 	import json
 	#ACB: I'm importing the module in this way, because it can cause name problems with the websocket.py module used by the appsoma node
 	import imp
-	websocket = imp.load_source("websocket","/usr/local/lib/python2.7/dist-packages/websocket.py")
+	#websocket = imp.load_source("websocket","/usr/local/lib/python2.7/dist-packages/websocket.py")
+	import websocket_client
 
 	def appsoma_test_alive_collector():
 		try:
@@ -13,7 +14,7 @@ try:
 				port = int(f.read()) + 1
 			
 			#ACB: Using websockets to check if it's alive
-			ws = websocket.create_connection("wss://localhost:" + str(port-1), header=[ "Sec-WebSocket-Protocol: base64" ])
+			ws = websocket_client.create_connection("wss://localhost:" + str(port-1), header=[ "Sec-WebSocket-Protocol: base64" ])
 			if ws.send(base64.b64encode(json.dumps({ 'command':'rpc_alive' }))) <= 0:
 				return 0
 			recv = json.loads(base64.b64decode(ws.recv()))
