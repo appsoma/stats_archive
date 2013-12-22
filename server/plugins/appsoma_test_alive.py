@@ -10,7 +10,7 @@ try:
 
 	def appsoma_test_alive_collector():
 		try:
-			with open( "appsoma.base_port" ) as f:
+			with open( "appsoma.port" ) as f:
 				port = int(f.read()) + 1
 			
 			#ACB: Using websockets to check if it's alive
