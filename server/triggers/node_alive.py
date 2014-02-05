@@ -10,9 +10,10 @@ def node_alive():
 
 		node_data = latest_node_data( node['id'], "main_alive", 600 )
 
-		#DHW Feb 5 2014. I commented this out so that we get alerts when there are no data at all
-		#if len( node_data ) == 0:
-		#	return
+		if len( node_data ) == 0:
+			#If we haven't seen anything in 2 weeks, don't alert
+			if len( latest_node_data( node['id'], "main_alive", 1209600 ) ) == 0:
+				return
 			
 		alive = False
 		for nd in node_data:
