@@ -10,8 +10,9 @@ def node_alive():
 
 		node_data = latest_node_data( node['id'], "main_alive", 600 )
 
-		if len( node_data ) == 0:
-			return
+		#DHW Feb 5 2014. I commented this out so that we get alerts when there are no data at all
+		#if len( node_data ) == 0:
+		#	return
 			
 		alive = False
 		for nd in node_data:
