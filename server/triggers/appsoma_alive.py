@@ -10,7 +10,7 @@ def appsoma_alive():
 
 		appsoma_data = latest_node_data( node['id'], "Appsoma_Response_Time", 600 )
 		docker1_data = latest_node_data( node['id'], "Docker_Registry_5000", 600 )
-		docker2_data = latest_node_data( node['id'], "Docker_Registry_5001", 600 )
+#		docker2_data = latest_node_data( node['id'], "Docker_Registry_5001", 600 )
 		
 		def check_alive( data, name ):
 			alive = False
@@ -23,6 +23,6 @@ def appsoma_alive():
 
 		check_alive( appsoma_data, "appsoma.com" )
 		check_alive( docker1_data, "docker-registry.appsoma.com:5000" )
-		check_alive( docker2_data, "docker-registry.appsoma.com:5001" )
+#		check_alive( docker2_data, "docker-registry.appsoma.com:5001" )
 
 triggers['appsoma_alive'] = appsoma_alive
