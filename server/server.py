@@ -47,7 +47,7 @@ def trigger_thread( args ):
 			ss_triggers.triggers[t]()
 		if "email" in cfg:
 			email_on_alerts()
-		time.sleep( 300 )
+		time.sleep( 30 )
 
 if "triggers" in cfg:
 	thread.start_new_thread( trigger_thread, ("",) )
@@ -347,8 +347,11 @@ def email_on_alerts():
 		rows = db.execute('SELECT id, time, value, sentmail FROM alerts where name = ? AND time >= ?', (name_row['name'], time_ago)).fetchall()
 		#If only one alert in the last day and we havent sent email for it
 		if len( rows ) == 1 and rows[-1]['sentmail'] != 1:
-			send_email( name_row['name'], datetime.datetime.fromtimestamp(int(rows[-1]['time'])).strftime('%Y-%m-%d %H:%M:%S') + " " + rows[-1]['value'] )
-			db.execute( "UPDATE alerts SET sentmail=1 where id=?", (rows[-1]['id'],))
+			try:
+				send_email( name_row['name'], datetime.datetime.fromtimestamp(int(rows[-1]['time'])).strftime('%Y-%m-%d %H:%M:%S') + " " + rows[-1]['value'] )
+				db.execute( "UPDATE alerts SET sentmail=1 where id=?", (rows[-1]['id'],))
+			except:
+				pass
 		elif len( rows ) > 1:
 			send_mail = True
 			#look for continous block recently that we didnt send mail for
@@ -377,7 +380,10 @@ def email_on_alerts():
 	conn.commit()
 	conn.close()
 	if len( to_send ) > 0:
-		send_email( ', '.join(d[0] for d in to_send), "\n".join(d[1] for d in to_send) )
+		try:
+			send_email( ', '.join(d[0] for d in to_send), "\n".join(d[1] for d in to_send) )
+		except:
+			pass
 
 def check_secret():
 	global cfg

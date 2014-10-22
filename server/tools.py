@@ -3,6 +3,7 @@ import sqlite3
 import sys
 from argparse import RawTextHelpFormatter
 
+
 def rm_node( node ):
 	conn = sqlite3.connect( "db.db" )
 	conn.row_factory = sqlite3.Row
@@ -28,8 +29,10 @@ def rm_node( node ):
 	conn.close()
 	print "Done!"
 
+
 def no_command( args ):
 	print "Bad Command: " + str(args.command)
+
 
 def create_db( args=None ):
 	con = sqlite3.connect( 'db.db' )
@@ -66,9 +69,17 @@ def create_db( args=None ):
 		time INTEGER)""" 
 	)
 
-	con.execute( "CREATE INDEX data_index ON data (node,name,time)" )
-	con.execute( "CREATE INDEX alerts_index ON alerts (time)" )
-	con.execute( "CREATE INDEX notes_index ON notes (node,time)" )
+	con.execute("""CREATE TABLE outages (
+		id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+		node VARCHAR(60),
+		start_time INTEGER,
+		stop_time INTEGER)"""
+	)
+
+	con.execute("CREATE INDEX data_index ON data (node, name, time)")
+	con.execute("CREATE INDEX alerts_index ON alerts (time)")
+	con.execute("CREATE INDEX notes_index ON notes (node, time)")
+	con.execute("CREATE INDEX outages_index ON outages (node, start_time)")
 
 	con.commit()
 	con.close()
