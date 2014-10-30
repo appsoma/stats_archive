@@ -1,7 +1,8 @@
 from ss_triggers import *
 from trigger_helper import *
 
-def node_restart():
+
+def node_restart(cfg):
 	nodes = get_nodes()
 	for node in nodes:
 		notes = latest_notes( node['id'], 600 )

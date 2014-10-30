@@ -2,11 +2,12 @@ from ss_triggers import *
 from trigger_helper import *
 
 
-def check_outage_close(node, time):
+def check_outage_close(node, time, server):
 	last_outage = latest_node_outage(node)
 	if last_outage is not None and last_outage['stop_time'] is None:
 		print ("Outage over", last_outage['id'])
 		stop_outage(last_outage['id'], node, time)
+		report_outage(node['name'], last_outage['start_time'], time, server)
 
 
 def check_outage_open(node, time):
@@ -16,11 +17,17 @@ def check_outage_open(node, time):
 		start_outage(node, time)
 
 
-def node_alive():
+def node_alive(cfg):
+	print ("Check alive")
 	nodes = get_nodes()
 	nodes_list = ["node-0", "node-1", "node-2", "google-0", "google-1", "google-2", "google-3", "utexas1", "utexas2"]
 	for node in nodes:
-		node_data = latest_node_data(node['id'], "main_alive", 600)
+		node_outage = latest_node_outage(node)
+		if node_outage is not None and 'stop_time' is None:
+			window = 20
+		else:
+			window = 120
+		node_data = latest_node_data(node['id'], "main_alive", window)
 		if len(node_data) == 0:
 			#If we haven't seen anything in 2 weeks, don't alert
 			if len(latest_node_data(node['id'], "main_alive", 1209600)) == 0:
@@ -29,7 +36,7 @@ def node_alive():
 		for nd in node_data:
 			if nd['value'] > 0:
 				alive = True
-				check_outage_close(node, nd['time'])
+				check_outage_close(node, nd['time'], cfg.get('appsoma_server', 'https://appsoma.com'))
 				break
 			else:
 				check_outage_open(node, nd['time'])

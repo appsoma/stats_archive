@@ -1,7 +1,8 @@
 from ss_triggers import *
 from trigger_helper import *
 
-def appsoma_alive():
+
+def appsoma_alive(cfg):
 	nodes = get_nodes()
 	nodes_list = ["zabbix.appsoma.com"]
 	for node in nodes:

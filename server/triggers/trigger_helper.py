@@ -1,6 +1,9 @@
 import sqlite3
 import time
 import json
+import urllib
+import urllib2
+
 
 def get_nodes():
 	conn = sqlite3.connect( "db.db" )
@@ -70,6 +73,18 @@ def latest_notes( node, time_span ):
 	for row in rows:
 		data.append( { "time": row['time'], "note": row['note'] } )
 	return data
+
+
+def report_outage(node, start, stop, server):
+	params = {'name': node, 'start_time': start, 'stop_time': stop, 'duration': stop - start}
+	url = server + "/log/node?" + urllib.urlencode(params)
+	try:
+		print ("Reporting", url)
+		urllib2.urlopen(url, timeout=10)
+
+	except Exception as e:
+		print ("Error reporting outage", e.args)
+
 
 def make_alert( name, value, level ):
 	conn = sqlite3.connect( "db.db" )

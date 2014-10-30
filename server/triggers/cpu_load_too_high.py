@@ -1,7 +1,8 @@
 from ss_triggers import *
 from trigger_helper import *
 
-def cpu_load_too_high():
+
+def cpu_load_too_high(cfg):
 	nodes = get_nodes()
 	for node in nodes:
 		node_data = latest_node_data( node["id"], "CPU_Load", 600 )

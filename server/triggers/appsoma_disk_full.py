@@ -1,7 +1,7 @@
 from ss_triggers import *
 from trigger_helper import *
 
-def appsoma_disk_full():
+def appsoma_disk_full(cfg):
 	nodes = get_nodes()
 	nodes_list = ["appsoma.com", "zabbix.appsoma.com"]
 	for node in nodes:
