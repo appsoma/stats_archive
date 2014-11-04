@@ -45,10 +45,11 @@ def node_alive(cfg):
 
 		if node['name'] in nodes_list and alive:
 			node_outage = latest_node_outage(node)
-			duration = nd['time'] - node_outage['start_time']
-			mins = int(duration / 60)
-			secs = duration % 60
-			time = "%d minutes, %d seconds" % (mins, secs) if mins > 0 else "%d seconds" % secs
-			make_alert(node["name"] + "-main_alive", node["name"] + " hasn't responded for " + time, 2)
+			if node_outage is not None:
+				duration = nd['time'] - node_outage['start_time']
+				mins = int(duration / 60)
+				secs = duration % 60
+				time = "%d minutes, %d seconds" % (mins, secs) if mins > 0 else "%d seconds" % secs
+				make_alert(node["name"] + "-main_alive", node["name"] + " hasn't responded for " + time, 2)
 
 triggers['node_alive'] = node_alive
