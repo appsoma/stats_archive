@@ -31,11 +31,9 @@ def node_alive(cfg):
 			for nd in node_data:
 				if nd['value'] > 0:
 					alive = True
-					print("OUTAGE CLOSE", node, nd)
 					check_outage_close(node, nd['time'], cfg.get('appsoma_server', 'https://appsoma.com'))
 					break
 				else:
-					print("OUTAGE OPEN", node, nd)
 					check_outage_open(node, nd['time'])
 		except Exception as e:
 			print("bad manage outage", e)
