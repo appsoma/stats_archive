@@ -7,6 +7,8 @@ import datetime
 import thread
 import sqlite3
 import os
+import sys
+import traceback
 from triggers import *
 import plugins
 import smtplib
@@ -47,7 +49,7 @@ def trigger_thread( args ):
 			try:
 				ss_triggers.triggers[t](cfg)
 			except Exception as e:
-				print("Error:", e)
+				print("Error:", e, "".join(traceback.format_exception(sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2])))
 		if "email" in cfg:
 			email_on_alerts()
 		time.sleep( 30 )
