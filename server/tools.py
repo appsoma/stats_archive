@@ -5,7 +5,7 @@ from argparse import RawTextHelpFormatter
 
 
 def rm_node( node ):
-	conn = sqlite3.connect( "db.db" )
+	conn = sqlite3.connect( "db.db", timeout=1 )
 	conn.row_factory = sqlite3.Row
 	db = conn.cursor()
 	
@@ -35,7 +35,7 @@ def no_command( args ):
 
 
 def create_db( args=None ):
-	con = sqlite3.connect( 'db.db' )
+	con = sqlite3.connect( 'db.db', timeout=1 )
 	con.execute( """CREATE TABLE alerts (
 		id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
 		name VARCHAR(60) NOT NULL, 

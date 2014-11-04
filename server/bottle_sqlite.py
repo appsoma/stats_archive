@@ -77,7 +77,7 @@ class SQLitePlugin(object):
 
         def wrapper(*args, **kwargs):
             # Connect to the database
-            db = sqlite3.connect(dbfile)
+            db = sqlite3.connect(dbfile, timeout=1)
             # This enables column access by name: row['column_name']
             if dictrows: db.row_factory = sqlite3.Row
             # Add the connection handle as a keyword argument.

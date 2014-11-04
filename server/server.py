@@ -339,7 +339,7 @@ def parse_query_for_cfg():
 	return pcfg
 
 def email_on_alerts():
-	conn = sqlite3.connect( "db.db" )
+	conn = sqlite3.connect( "db.db", timeout=1 )
 	conn.row_factory = sqlite3.Row
 	db = conn.cursor()
 	time_ago = time.time() - (60*60*24)
