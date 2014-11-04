@@ -44,7 +44,10 @@ def trigger_thread( args ):
 	time.sleep( 1 ) #hackety hackety way to make sure that email_on_alerts is defined by the time this runs
 	while True:
 		for t in cfg['triggers']:
-			ss_triggers.triggers[t](cfg)
+			try:
+				ss_triggers.triggers[t](cfg)
+			except Exception as e:
+				print("Error:", e)
 		if "email" in cfg:
 			email_on_alerts()
 		time.sleep( 30 )
