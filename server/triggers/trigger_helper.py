@@ -6,7 +6,7 @@ import urllib2
 
 
 def get_nodes():
-	conn = sqlite3.connect( "db.db" )
+	conn = sqlite3.connect("db.db", timeout=1)
 	conn.row_factory = sqlite3.Row
 	db = conn.cursor()
 	rows = db.execute('SELECT id,name from nodes').fetchall()
@@ -18,7 +18,7 @@ def get_nodes():
 
 
 def latest_node_data(node, name, time_span):
-	conn = sqlite3.connect("db.db")
+	conn = sqlite3.connect("db.db", timeout=1)
 	conn.row_factory = sqlite3.Row
 	db = conn.cursor()
 	time_ago = time.time() - time_span
@@ -31,7 +31,7 @@ def latest_node_data(node, name, time_span):
 
 
 def latest_node_outage(node):
-	conn = sqlite3.connect( "db.db" )
+	conn = sqlite3.connect("db.db", timeout=1)
 	conn.row_factory = sqlite3.Row
 	db = conn.cursor()
 	try:
@@ -44,7 +44,7 @@ def latest_node_outage(node):
 
 
 def start_outage(node, time):
-	conn = sqlite3.connect("db.db")
+	conn = sqlite3.connect("db.db", timeout=1)
 	db = conn.cursor()
 	try:
 		rows = db.execute('INSERT INTO outages (node, start_time) VALUES (?, ?)', (node['id'], time))
@@ -55,15 +55,15 @@ def start_outage(node, time):
 
 
 def stop_outage(id, node, time):
-	conn = sqlite3.connect("db.db")
+	conn = sqlite3.connect("db.db", timeout=1)
 	db = conn.cursor()
 	rows = db.execute('UPDATE outages set stop_time=? WHERE id=?', (time, id))
 	conn.commit()
 	conn.close()
 
 
-def latest_notes( node, time_span ):
-	conn = sqlite3.connect( "db.db" )
+def latest_notes(node, time_span):
+	conn = sqlite3.connect("db.db", timeout=1)
 	conn.row_factory = sqlite3.Row
 	db = conn.cursor()
 	time_ago = time.time() - time_span
@@ -87,7 +87,7 @@ def report_outage(node, start, stop, server):
 
 
 def make_alert( name, value, level ):
-	conn = sqlite3.connect( "db.db" )
+	conn = sqlite3.connect("db.db", timeout=1)
 	db = conn.cursor()
 	rows = db.execute('INSERT INTO alerts (name,value,level,time,sentmail) VALUES (?,?,?,?,?)', (name,value,level,time.time(),0) )
 	conn.commit()
