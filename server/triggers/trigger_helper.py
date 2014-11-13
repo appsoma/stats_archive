@@ -83,8 +83,6 @@ def report_outage(node, start, stop, server):
 
 	params = {'name': node, 'start_time': start, 'stop_time': stop, 'duration': stop - start}
 	url = server + "/log/outage?" + urllib.urlencode(params)
-	print "Would report: ", url
-	return
 	try:
 		print ("Reporting", url)
 		urllib2.urlopen(url, timeout=10)

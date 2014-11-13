@@ -5,7 +5,7 @@ from trigger_helper import *
 def check_outage_close(node, time, server):
 	last_outage = latest_node_outage(node)
 	if last_outage is not None and last_outage['stop_time'] is None:
-		print ("Outage over", node['name'], last_outage)
+		print ("Outage over on node", node['name'], "@", time)
 		stop_outage(last_outage['id'], node, time)
 		report_outage(node['name'], last_outage['start_time'], time, server)
 
@@ -13,7 +13,7 @@ def check_outage_close(node, time, server):
 def check_outage_open(node, time):
 	last_outage = latest_node_outage(node)
 	if last_outage is None or last_outage['stop_time'] is not None:
-		print ("Outage started", node['name'], last_outage)
+		print ("Outage started on", node['name'], "@", time)
 		start_outage(node, time)
 
 
