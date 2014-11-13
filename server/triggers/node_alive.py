@@ -18,13 +18,10 @@ def check_outage_open(node, time):
 
 
 def node_alive(cfg):
-	print("LIVE CHECK")
 	nodes = get_nodes()
 	nodes_list = ["node-0", "node-1", "node-2", "google-0", "google-1", "google-2", "google-3", "utexas1", "utexas2"]
 	for node in nodes:
 		node_data = latest_node_data(node['id'], "main_alive", 600)
-		if node['name'] == 'google-3':
-			print("G3 check", node, node_data)
 		if len(node_data) == 0:
 			#If we haven't seen anything in 2 weeks, don't alert
 			if len(latest_node_data(node['id'], "main_alive", 1209600)) == 0:
@@ -38,11 +35,13 @@ def node_alive(cfg):
 					break
 				else:
 					check_outage_open(node, nd['time'])
+					break
 		except Exception as e:
 			print("bad manage outage", e)
 
-		if node['name'] in nodes_list and alive:
+		if node['name'] in nodes_list and not alive:
 			node_outage = latest_node_outage(node)
+			
 			if node_outage is not None:
 				duration = nd['time'] - node_outage['start_time']
 				mins = int(duration / 60)

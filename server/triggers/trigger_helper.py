@@ -22,7 +22,7 @@ def latest_node_data(node, name, time_span):
 	conn.row_factory = sqlite3.Row
 	db = conn.cursor()
 	time_ago = time.time() - time_span
-	rows = db.execute('SELECT value, time from data where node=? AND name=? AND time >= ?', (node, name, time_ago)).fetchall()
+	rows = db.execute('SELECT value, time from data where node=? AND name=? AND time >= ? ORDER BY time DESC', (node, name, time_ago)).fetchall()
 	conn.close()
 	data = []
 	for row in rows:
@@ -34,14 +34,17 @@ def latest_node_outage(node):
 	conn = sqlite3.connect("db.db", timeout=1)
 	conn.row_factory = sqlite3.Row
 	db = conn.cursor()
+	data = None
 	try:
-		row = db.execute('SELECT id, node, start_time, stop_time FROM outages ORDER BY start_time DESC LIMIT 1').fetchall()
-		print row
-		return {'id': row[0][0], 'node_id': row[0][1], 'start_time': row[0][2], 'stop_time': row[0][3] if len(row[0]) > 3 else None}
-	except:
-		return None
+		row =  db.execute('SELECT id, node, start_time, stop_time FROM outages WHERE node=%d ORDER BY start_time DESC LIMIT 1' % (node['id'])).fetchall()
+		if row is not None and len(row) > 0:
+			data = { 'id': row[0][0], 'node_id': row[0][1], 'start_time': row[0][2], 'stop_time': row[0][3]}
+	except Exception as e:
+		print "Error getting outage", e
+		data = None
 	finally:
 		conn.close()
+	return data
 
 
 def start_outage(node, time):
@@ -79,7 +82,7 @@ def latest_notes(node, time_span):
 def report_outage(node, start, stop, server):
 
 	params = {'name': node, 'start_time': start, 'stop_time': stop, 'duration': stop - start}
-	url = server + "/log/node?" + urllib.urlencode(params)
+	url = server + "/log/outage?" + urllib.urlencode(params)
 	print "Would report: ", url
 	return
 	try:
