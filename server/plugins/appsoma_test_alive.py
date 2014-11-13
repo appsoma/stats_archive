@@ -19,6 +19,10 @@ try:
 			if ws.send(base64.b64encode(json.dumps({ 'command':'rpc_alive' }))) <= 0:
 				return 0
 			recv = json.loads(base64.b64decode(ws.recv()))
+			try:
+				ws.close()
+			except:
+				pass
 			return 1 if (recv["command"] == "rpc_alive" and "error" not in recv) else 0
 			
 		except Exception as e:
