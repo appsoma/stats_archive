@@ -36,6 +36,7 @@ def latest_node_outage(node):
 	db = conn.cursor()
 	try:
 		row = db.execute('SELECT id, node, start_time, stop_time FROM outages ORDER BY start_time DESC LIMIT 1').fetchall()
+		print row
 		return {'id': row[0][0], 'node_id': row[0][1], 'start_time': row[0][2], 'stop_time': row[0][3] if len(row[0]) > 3 else None}
 	except:
 		return None
@@ -76,8 +77,11 @@ def latest_notes(node, time_span):
 
 
 def report_outage(node, start, stop, server):
+
 	params = {'name': node, 'start_time': start, 'stop_time': stop, 'duration': stop - start}
 	url = server + "/log/node?" + urllib.urlencode(params)
+	print "Would report: ", url
+	return
 	try:
 		print ("Reporting", url)
 		urllib2.urlopen(url, timeout=10)
